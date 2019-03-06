@@ -38,11 +38,12 @@ static const uint32_t category_ball     = 0x1 << 0;
     SKSpriteNode *background = (SKSpriteNode *)[self childNodeWithName:@"Background.png"];
     background.zPosition = 0; // below all the things drawn
     
+    /*
     SKSpriteNode *ball1 = [SKSpriteNode spriteNodeWithImageNamed:@"blueball.png"];
     ball1.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball1.size.width/2];
     ball1.zPosition = 1; // layer 1
     ball1.physicsBody.dynamic = YES;
-    ball1.position = CGPointMake(100, self.size.height/2);
+    ball1.position = CGPointMake(10, self.size.height * 0.9);
     ball1.physicsBody.friction = 0.0;
     ball1.physicsBody.restitution = 1.0;
     ball1.physicsBody.linearDamping = 0.0;
@@ -56,6 +57,7 @@ static const uint32_t category_ball     = 0x1 << 0;
     ball1.physicsBody.contactTestBitMask = category_fence | category_ball;
     ball1.physicsBody.usesPreciseCollisionDetection = YES;
     
+    
     SKSpriteNode *ball2 = [SKSpriteNode spriteNodeWithImageNamed:@"redball.png"];
     ball2.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball2.size.width/2];
     ball2.physicsBody.dynamic = YES;
@@ -67,7 +69,9 @@ static const uint32_t category_ball     = 0x1 << 0;
     ball2.physicsBody.allowsRotation = NO;
     ball2.physicsBody.mass = 1.0;
     ball2.physicsBody.velocity = CGVectorMake(0.0, 0.0);
+     
     [self addChild:ball1];
+    */
     /*
     SKSpriteNode *paddle = [SKSpriteNode spriteNodeWithImageNamed:@"paddle.png"];
     paddle.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(paddle.size.width, paddle.size.height)];
@@ -83,7 +87,7 @@ static const uint32_t category_ball     = 0x1 << 0;
     paddle.physicsBody.velocity = CGVectorMake(0.0, 0.0);
     */
     
-    [self addChild:ball2];
+//    [self addChild:ball2];
 //    [self addChild:paddle];
     
     /*
@@ -179,17 +183,25 @@ static const uint32_t category_ball     = 0x1 << 0;
     CGFloat xPos = [touch locationInNode:self].x;
     CGFloat yPos = [touch locationInNode:self].y;
     SKSpriteNode *ball3 = [SKSpriteNode spriteNodeWithImageNamed:@"greenball.png"];
+    ball3.name = @"ball";
     ball3.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball3.size.width/2];
     ball3.physicsBody.dynamic = YES;
     ball3.position = CGPointMake(xPos, yPos);
-    ball3.physicsBody.friction = 0.0;
-    ball3.physicsBody.restitution = 1.0;
-    ball3.physicsBody.linearDamping = 0.0;
-    ball3.physicsBody.angularDamping = 0.0;
-    ball3.physicsBody.allowsRotation = NO;
+    ball3.physicsBody.friction = 0.1;
+    ball3.physicsBody.restitution = 0.7;
+    ball3.physicsBody.linearDamping = 0.1; // air friction
+    ball3.physicsBody.angularDamping = 0.1;
+    ball3.physicsBody.allowsRotation = YES;
     ball3.physicsBody.mass = 1.0;
     ball3.physicsBody.velocity = CGVectorMake(200.0, 200.0);
+    
+    ball3.physicsBody.categoryBitMask = category_ball;
+    ball3.physicsBody.collisionBitMask = category_fence | category_ball;
+    ball3.physicsBody.contactTestBitMask = category_fence | category_ball;
+    
+    ball3.physicsBody.usesPreciseCollisionDetection = YES;
     [self addChild:ball3];
+    
 }
 
 - (void)trackPaddlesToMotivatingTouches {
@@ -206,6 +218,36 @@ static const uint32_t category_ball     = 0x1 << 0;
 }
 
 - (void)didBeginContact:(SKPhysicsContact *)contact {
+    NSString *nameA = contact.bodyA.node.name;
+    NSString *nameB = contact.bodyB.node.name;
+    NSLog(@"did begin contact");
+    NSLog(@"nameA %@", nameA);
+    NSLog(@"nameB %@", nameB);
+    if (([nameA containsString:@"ball"] && [nameB containsString:@"Fence"]) || ([nameB containsString:@"ball"] && [nameA containsString:@"Fence"])) {
+        SKNode *block;
+        if ([nameA containsString:@"ball"]) {
+            block = contact.bodyA.node;
+        } else {
+            block = contact.bodyB.node;
+        }
+        
+        SKAction *actionAudioRamp = [SKAction playSoundFileNamed:@"ballhit.aif" waitForCompletion:NO];
+//        SKAction *actionVisualRamp = [SKAction animateWithTextures:self timePerFrame:0.04f resize:NO restore:NO];
+        NSString *particleRampPath = [[NSBundle mainBundle] pathForResource:@"ballParticle" ofType:@"sks"];
+        SKEmitterNode *particleRamp = [NSKeyedUnarchiver unarchiveObjectWithFile:particleRampPath];
+        
+        particleRamp.position = CGPointMake(0,0);
+        particleRamp.zPosition = 0;
+        SKAction *actionParticleRamp = [SKAction runBlock:^{
+            [block addChild:particleRamp];
+        }];
+        SKAction *actionRampSequence = [SKAction group:@[actionAudioRamp, actionParticleRamp]];
+        [block runAction:[SKAction sequence:@[actionRampSequence]]];
+        NSLog(@"ball hit fence");
+        
+        
+    }
+    
     
 }
 

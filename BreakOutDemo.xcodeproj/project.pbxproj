@@ -18,6 +18,8 @@
 		8EA77CBD22279929004BF90C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA77CBC22279929004BF90C /* main.m */; };
 		8EA77CC722279929004BF90C /* BreakOutDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA77CC622279929004BF90C /* BreakOutDemoTests.m */; };
 		8EA77CD222279929004BF90C /* BreakOutDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA77CD122279929004BF90C /* BreakOutDemoUITests.m */; };
+		8ED35CED222F8EAE0040DB1B /* ballhit.aif in Resources */ = {isa = PBXBuildFile; fileRef = 8ED35CEC222F8EAE0040DB1B /* ballhit.aif */; };
+		8EF84DD8222F882B001A6E5A /* ballParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8EF84DD7222F882B001A6E5A /* ballParticle.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		8EA77CCD22279929004BF90C /* BreakOutDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreakOutDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA77CD122279929004BF90C /* BreakOutDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BreakOutDemoUITests.m; sourceTree = "<group>"; };
 		8EA77CD322279929004BF90C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ED35CEC222F8EAE0040DB1B /* ballhit.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = ballhit.aif; sourceTree = "<group>"; };
+		8EF84DD7222F882B001A6E5A /* ballParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ballParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,7 @@
 		8EA77C9A22279923004BF90C = {
 			isa = PBXGroup;
 			children = (
+				8ED35CEC222F8EAE0040DB1B /* ballhit.aif */,
 				8EA77CA522279923004BF90C /* BreakOutDemo */,
 				8EA77CC522279929004BF90C /* BreakOutDemoTests */,
 				8EA77CD022279929004BF90C /* BreakOutDemoUITests */,
@@ -114,6 +119,7 @@
 				8EA77CAB22279923004BF90C /* Actions.sks */,
 				8EA77CAD22279923004BF90C /* GameScene.h */,
 				8EA77CAE22279923004BF90C /* GameScene.m */,
+				8EF84DD7222F882B001A6E5A /* ballParticle.sks */,
 				8EA77CB022279923004BF90C /* GameViewController.h */,
 				8EA77CB122279923004BF90C /* GameViewController.m */,
 				8EA77CB322279923004BF90C /* Main.storyboard */,
@@ -250,7 +256,9 @@
 				8EA77CAA22279923004BF90C /* GameScene.sks in Resources */,
 				8EA77CB722279929004BF90C /* Assets.xcassets in Resources */,
 				8EA77CBA22279929004BF90C /* LaunchScreen.storyboard in Resources */,
+				8EF84DD8222F882B001A6E5A /* ballParticle.sks in Resources */,
 				8EA77CAC22279923004BF90C /* Actions.sks in Resources */,
+				8ED35CED222F8EAE0040DB1B /* ballhit.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
